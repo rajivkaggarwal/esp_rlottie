@@ -39,7 +39,11 @@ VArenaAlloc::~VArenaAlloc() {
 
 void VArenaAlloc::reset() {
     this->~VArenaAlloc();
+    
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wuninitialized"
     new (this) VArenaAlloc{fFirstBlock, fFirstSize, fFirstHeapAllocationSize};
+    #pragma GCC diagnostic pop
 }
 
 void VArenaAlloc::installFooter(FooterAction* action, uint32_t padding) {
